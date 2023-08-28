@@ -27,7 +27,8 @@
 		"!dist/**/*.spec.*"
 	],
 	"peerDependencies": {
-		"svelte": "^4.0.0"
+		"svelte": "^4.0.0",
+		"@supabase/supabase-js": "^2.33.1"
 	},
 	"devDependencies": {
 		"@playwright/test": "^1.28.1",

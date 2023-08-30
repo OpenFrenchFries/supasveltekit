@@ -29,9 +29,7 @@ export function sessionStore(auth: SupabaseAuthClient) {
 		});
 
 		const unsubscribe = auth.onAuthStateChange((event, session) => {
-			if (event === 'SIGNED_IN') {
-				set(session ?? null);
-			}
+			set(session ?? null);
 		}).data?.subscription?.unsubscribe;
 
 		return () => {

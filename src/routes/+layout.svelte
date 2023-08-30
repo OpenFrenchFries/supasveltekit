@@ -3,6 +3,6 @@
 	import {supabase} from './constants.js';
 </script>
 
-<SupabaseApp supabase={supabase}>
-
+<SupabaseApp {supabase}>
+    <slot />
 </SupabaseApp>

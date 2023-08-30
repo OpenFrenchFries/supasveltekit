@@ -3,5 +3,7 @@
 
     export let supabase;
 
-    setSupabaseContext(supabase.auth);
+    setSupabaseContext({auth: supabase.auth});
 </script>
+
+<slot />

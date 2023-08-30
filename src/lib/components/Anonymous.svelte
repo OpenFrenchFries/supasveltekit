@@ -9,13 +9,11 @@
 	
 	interface $$Slots {
 		default: {
-			session: Session;
 			auth: SupabaseAuthClient;
-			signOut: () => Promise<{ error: AuthError | null }>;
 		};
 	}
 </script>
 
-{#if $session}
-	<slot session={$session} {auth} signOut={() => auth.signOut()} />
+{#if !$session}
+	<slot {auth} />
 {/if}

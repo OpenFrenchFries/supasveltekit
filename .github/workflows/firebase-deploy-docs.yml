@@ -9,9 +9,6 @@ defaults:
   run:
     working-directory: ./docs
 
-env:
-  FIREBASE_TOKEN: ${{secrets.FIREBASE_TOKEN}}
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -47,6 +44,6 @@ jobs:
         name: 'Authenticate to Google Cloud'
         uses: 'google-github-actions/auth@v1'
         with:
-          credentials_json: ${{ env.FIREBASE_TOKEN }}
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
 
       - run: npm run deploy

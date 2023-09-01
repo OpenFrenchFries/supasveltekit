@@ -8,7 +8,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "deploy": "firebase deploy --token \"$FIREBASE_TOKEN\" --only hosting"
+    "deploy": "firebase deploy --only hosting"
   },
   "dependencies": {
     "@astrojs/starlight": "^0.7.3",

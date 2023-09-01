@@ -47,6 +47,6 @@ jobs:
         name: 'Authenticate to Google Cloud'
         uses: 'google-github-actions/auth@v1'
         with:
-          credentials_json: ${{ FIREBASE_TOKEN }}
+          credentials_json: ${{ env.FIREBASE_TOKEN }}
 
       - run: npm run deploy

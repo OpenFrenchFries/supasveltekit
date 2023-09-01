@@ -1,5 +1,5 @@
 {
-  "name": "",
+  "name": "supabase-docs",
   "type": "module",
   "version": "0.0.1",
   "scripts": {
@@ -7,11 +7,15 @@
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "deploy": "firebase deploy --token \"$FIREBASE_TOKEN\" --only hosting"
   },
   "dependencies": {
     "@astrojs/starlight": "^0.7.3",
     "astro": "^2.10.5",
     "sharp": "^0.32.3"
+  },
+  "devDependencies": {
+    "firebase-tools": "^12.5.2"
   }
 }

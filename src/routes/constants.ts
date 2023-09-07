@@ -4,4 +4,4 @@ import { createClient } from "@supabase/supabase-js";
 export const supabaseUrl = PUBLIC_SUPABASE_URL;
 export const supabaseKey = PUBLIC_SUPABASE_KEY;
 
-export const supabase = createClient(supabaseUrl, supabaseKey);
+export const supabase = createClient(supabaseUrl, supabaseKey, {auth: {persistSession: false}});

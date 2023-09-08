@@ -54,7 +54,7 @@ export const supabase = createClient(supabaseUrl, supabaseKey);
 
 ## 📚 Documentation
 
-For detailed documentation, usage guides, and API references, dive into [our documentation site](http://supasvelte.openfrenchfries.com/getting-started).
+For detailed documentation, usage guides, and API references, dive into [our documentation site](http://supasvelte.openfrenchfries.com/).
 
 ## 📖 Examples
 

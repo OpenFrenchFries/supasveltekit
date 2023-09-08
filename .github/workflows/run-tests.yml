@@ -5,10 +5,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      PUBLIC_TEST_USER_EMAIL: 'test@test.io'
-      PUBLIC_TEST_USER_PASSWORD: 'test1234'
-      NODE_ENV: 'test'
     steps:
       - uses: actions/checkout@v3
       - uses: supabase/setup-cli@v1

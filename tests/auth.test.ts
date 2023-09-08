@@ -24,6 +24,6 @@ test.describe.serial('Auth', () => {
 
 		await page.getByRole('button', { name: 'Sign Out' }).click();
 		await expect(page.getByRole('button', { name: 'Sign In' })).toBeVisible();
-		await expect(page.getByText('Sign in to continue')).toBeHidden();
+		await expect(page.getByText('Sign in to continue')).toBeVisible();
 	});
 });

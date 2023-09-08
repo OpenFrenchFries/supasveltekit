@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { sessionStore } from '$lib/stores/session.js';
 	import { getSupabaseContext } from '$lib/stores/supabase-sdk.js';
-	import type { AuthError, Session } from '@supabase/supabase-js';
 	import type { SupabaseAuthClient } from '@supabase/supabase-js/dist/module/lib/SupabaseAuthClient.js';
 
 	const auth = getSupabaseContext().auth!;

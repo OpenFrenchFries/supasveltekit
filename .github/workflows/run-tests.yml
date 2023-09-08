@@ -12,6 +12,7 @@ jobs:
           version: latest
       - run: supabase init
       - run: supabase start
+      - run: npm ci
       - run: npm run env:local
       - run: npx playwright install --with-deps chromium
       - run: npx playwright test

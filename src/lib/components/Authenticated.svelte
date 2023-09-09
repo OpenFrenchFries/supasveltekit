@@ -10,12 +10,13 @@
 	interface $$Slots {
 		default: {
 			session: Session;
+			error: Error | null;
 			auth: SupabaseAuthClient;
 			signOut: () => Promise<{ error: AuthError | null }>;
 		};
 	}
 </script>
 
-{#if $session}
-	<slot session={$session} {auth} signOut={() => auth.signOut()} />
+{#if $session && $session?.data}
+	<slot session={$session.data} {auth} error={$session.error} signOut={() => auth.signOut()} />
 {/if}

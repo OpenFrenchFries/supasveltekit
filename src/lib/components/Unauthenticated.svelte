@@ -9,10 +9,11 @@
 	interface $$Slots {
 		default: {
 			auth: SupabaseAuthClient;
+			error: Error | null;
 		};
 	}
 </script>
 
-{#if !$session}
-	<slot {auth} />
+{#if !$session || !$session.data || !!$session.error}
+	<slot {auth} error={$session?.error} />
 {/if}

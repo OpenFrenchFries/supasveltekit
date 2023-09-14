@@ -1,12 +1,12 @@
 <script lang="ts">
-    import BucketList from '$lib/components/BucketList.svelte';
+    import BucketFilesList from '$lib/components/BucketFilesList.svelte';
 </script>
 
-<BucketList let:bucketList let:error>
-    {#if error}
+<BucketFilesList bucketName="test-bucket" path="public" let:bucketFiles let:error>
+    {#if error !== null}
         <div>{error}</div>
     {/if}
-    {#each bucketList as bucket}
-        <h2 data-testid="bucket-name">{bucket.name}</h2>
+    {#each bucketFiles as file}
+        <h2 data-testid="bucket-name">{file.name}</h2>
     {/each}
-</BucketList>
+</BucketFilesList>

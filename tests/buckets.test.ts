@@ -12,9 +12,11 @@ test.describe.serial('Storage', () => {
 		await page.close();
 	});
 
-	test('Should show a bucket named avatars after creation', async () => {
-		await page.waitForSelector('[data-testid="bucket-name"]');
-		const linksCount = await page.getByTestId("bucket-name").count();
-		expect(linksCount).toBeGreaterThan(0);
+	test('should display bucket file names', async () => {
+		const bucketNames = await page.$$eval('[data-testid="bucket-name"]', (elements) =>
+		  elements.map((el) => el.textContent)
+		);
+		expect(bucketNames).toEqual(['hello.txt']);
 	});
+	
 });

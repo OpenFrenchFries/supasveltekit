@@ -1,16 +1,16 @@
 import { readable } from 'svelte/store';
-import type { StorageClient, Bucket} from '@supabase/storage-js';
+import type { StorageClient, FileObject} from '@supabase/storage-js';
 
-type BucketList = {
-    data: Bucket[] | [];
+type BucketFilesList = {
+    data: FileObject[] | [];
     error: Error | null;
 };
   
-interface BucketListStore {
-    subscribe: (cb: (value: BucketList) => void) => void | (() => void);
+interface BucketFilesListStore {
+    subscribe: (cb: (value: BucketFilesList) => void) => void | (() => void);
 }
 
-export function bucketListStore(storage: StorageClient): BucketListStore {  
+export function bucketFilesListStore(storage: StorageClient, bucketName: string, path: string = ''): BucketFilesListStore {  
 
 	// SSR
 	if (!globalThis.window) {
@@ -31,9 +31,12 @@ export function bucketListStore(storage: StorageClient): BucketListStore {
 		};
 	}
 
-	const { subscribe } = readable<BucketList>({data: [], error: null}, (set) => {
-		storage.listBuckets().then(({ data, error }) => {
-            set({ data: data ?? [], error });
+	const { subscribe } = readable<BucketFilesList>({data: [], error: null}, (set) => {
+		storage
+			.from(bucketName)
+			.list(path)
+			.then(({ data, error }) => {
+            	set({ data: data ?? [], error });
         });
 	});
 

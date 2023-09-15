@@ -33,8 +33,12 @@ export function sessionStore(auth: SupabaseAuthClient): SessionStore {
 	}
 
 	const { subscribe } = readable<SessionStoreValue>({data: null, error: null}, (set) => {
-		auth.getSession().then((session) => {
+		auth.getSession()
+		.then((session) => {
             set({data: session?.data.session ?? null, error: session?.error ?? null});
+		})
+		.catch((error) => {
+			set({data: null, error});
 		});
 
 		const unsubscribe = auth.onAuthStateChange((event, session) => {

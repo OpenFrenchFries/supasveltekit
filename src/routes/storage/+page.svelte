@@ -1,6 +1,7 @@
 <script lang="ts">
     import BucketFilesList from '$lib/components/BucketFilesList.svelte';
     import BucketsList from '$lib/components/BucketsList.svelte';
+    import DownloadURL from '$lib/components/DownloadURL.svelte';
 </script>
 
 <BucketsList let:buckets let:error>
@@ -14,7 +15,16 @@
                 {/if}
                 <ul>
                     {#each bucketFiles as file}
-                        <li data-testid="{file.name}">{file.name}</li>
+                        <li data-testid="{file.name}">
+                            <DownloadURL bucketName={bucket.name} path={"public/" + file.name} let:url let:error>
+                                {#if error !== null}
+                                    <div>{error}</div>
+                                {/if}
+                                {#if url !== null}
+                                    <a href="{url}" download="{file.name}">{file.name}</a>
+                                {/if}
+                            </DownloadURL>
+                        </li>
                     {/each}
                 </ul>
             </BucketFilesList>

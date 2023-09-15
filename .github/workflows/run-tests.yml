@@ -10,8 +10,8 @@ jobs:
       - uses: supabase/setup-cli@v1
         with:
           version: latest
-      - run: supabase init
       - run: supabase start
+      - run: supabase db reset
       - run: npm ci
       - run: npm run env:local
       - run: npx playwright install --with-deps chromium

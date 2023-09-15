@@ -2,11 +2,20 @@ import { readable } from 'svelte/store';
 import type { SupabaseAuthClient } from '@supabase/supabase-js/dist/module/lib/SupabaseAuthClient.js';
 import type { Session } from '@supabase/supabase-js';
 
-export function sessionStore(auth: SupabaseAuthClient) {
+type SessionStoreValue = {
+    data: Session | null;
+    error: Error | null;
+};
+  
+interface SessionStore {
+    subscribe: (cb: (value: SessionStoreValue) => void) => void | (() => void);
+}
+
+export function sessionStore(auth: SupabaseAuthClient): SessionStore {
 
 	// SSR
 	if (!globalThis.window) {
-		const { subscribe } = readable(null);
+		const { subscribe } = readable({ data: null, error: null });
 		return {
 			subscribe
 		};
@@ -17,19 +26,19 @@ export function sessionStore(auth: SupabaseAuthClient) {
 		console.warn(
 			'Auth is not initialized. Did you forget to create a `supabase` instance?'
 		);
-		const { subscribe } = readable(null);
+		const { subscribe } = readable({ data: null, error: new Error('Auth is not initialized') });
 		return {
 			subscribe
 		};
 	}
 
-	const { subscribe } = readable<Session | null>(null, (set) => {
+	const { subscribe } = readable<SessionStoreValue>({data: null, error: null}, (set) => {
 		auth.getSession().then((session) => {
-            set(session?.data.session ?? null);
+            set({data: session?.data.session ?? null, error: session?.error ?? null});
 		});
 
 		const unsubscribe = auth.onAuthStateChange((event, session) => {
-			set(session ?? null);
+			set({data: session ?? null, error: null});
 		}).data?.subscription?.unsubscribe;
 
 		return () => {

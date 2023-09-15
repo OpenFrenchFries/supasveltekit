@@ -8,8 +8,6 @@
 
 	const storage = getSupabaseContext().storage!;
 	const bucketFiles = bucketFilesListStore(storage, bucketName, path);
-
-	$: console.log($bucketFiles);
 	
 	interface $$Slots {
 		default: {

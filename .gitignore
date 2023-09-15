@@ -9,7 +9,6 @@ node_modules
 !.env.example
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
-/supabase
 
 # Ignore generated credentials from google-github-actions/auth
 gha-creds-*.json

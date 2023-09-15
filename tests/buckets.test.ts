@@ -12,11 +12,12 @@ test.describe.serial('Storage', () => {
 		await page.close();
 	});
 
+	test('should display buckets names', async () => {
+		await expect(page.getByRole('heading', { name: 'test-bucket' })).toBeVisible();
+	});
+
 	test('should display bucket file names', async () => {
-		const bucketNames = await page.$$eval('[data-testid="bucket-name"]', (elements) =>
-		  elements.map((el) => el.textContent)
-		);
-		expect(bucketNames).toEqual(['hello.txt']);
+		await expect(page.getByTestId('hello.txt')).toBeVisible();
 	});
 	
 });

@@ -20,8 +20,8 @@ The session store is a readable store that contains the session data. It can be 
     const session = sessionStore(supabase.auth);
 </script>
 
-{#if $session}
-    <h1>Welcome, {$session.user?.identities?.[0]?.identity_data?.email}!</h1>
+{#if $session.data !== null}
+    <h1>Welcome, {$session.data.user?.identities?.[0]?.identity_data?.email}!</h1>
     <button on:click={() => supabase.auth.signOut()}>Sign Out</button>
 {:else}
     <h1>Sign in to continue</h1>

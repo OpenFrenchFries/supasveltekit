@@ -18,4 +18,3 @@
 {#if $buckets}
 	<slot buckets={$buckets.data} {storage} error={$buckets.error} />
 {/if}
-¨

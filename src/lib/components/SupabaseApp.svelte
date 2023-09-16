@@ -4,7 +4,7 @@
 
     export let supabase: SupabaseClient;
 
-    setSupabaseContext({auth: supabase.auth, storage: supabase.storage});
+    setSupabaseContext({auth: supabase.auth, storage: supabase.storage, realtime: supabase.realtime});
 </script>
 
 <slot />

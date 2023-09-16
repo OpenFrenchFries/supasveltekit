@@ -1,9 +1,9 @@
 <script lang="ts">
-    import BucketFilesList from '$lib/components/BucketFilesList.svelte';
-    import BucketsList from '$lib/components/BucketsList.svelte';
-    import DownloadURL from '$lib/components/DownloadURL.svelte';
-	import BucketContext from '$lib/components/BucketContext.svelte';
-	import Uploader from '$lib/components/Uploader.svelte';
+    import BucketFilesList from '$lib/components/storage/BucketFilesList.svelte';
+    import BucketsList from '$lib/components/storage/BucketsList.svelte';
+    import DownloadURL from '$lib/components/storage/DownloadURL.svelte';
+	import BucketContext from '$lib/components/storage/BucketContext.svelte';
+	import Uploader from '$lib/components/storage/Uploader.svelte';
     import { getSupabaseContext } from '$lib/stores/supabase-sdk.js';
 
     let file: File | null = null;

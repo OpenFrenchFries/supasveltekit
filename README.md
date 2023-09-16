@@ -7,7 +7,7 @@ SupaSvelte is a library designed to seamlessly integrate SvelteKit with Supabase
 ## 🎉 Features
 
 - **Authentication** 🔐: Easily integrate Supabase authentication with SvelteKit.
-- **Database** 📊: Simplified database operations using Svelte stores.
+- **Realtime** ⏱️: Simplified multi-user realtime updates with Svelte stores.
 - **Storage** 📦: Manage your Supabase storage with Svelte components.
 - ... and more to come! Stay tuned and feel free to suggest or contribute new features!
 

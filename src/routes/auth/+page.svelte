@@ -1,6 +1,6 @@
 <script lang="ts">
-	import Authenticated from "$lib/components/Authenticated.svelte";
-	import Unauthenticated from "$lib/components/Unauthenticated.svelte";
+	import Authenticated from "$lib/components/auth/Authenticated.svelte";
+	import Unauthenticated from "$lib/components/auth/Unauthenticated.svelte";
 	import { getSupabaseContext } from "$lib/stores/supabase-sdk.js";
     import { PUBLIC_TEST_USER_EMAIL, PUBLIC_TEST_USER_PASSWORD } from "$env/static/public";
 

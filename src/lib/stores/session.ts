@@ -6,7 +6,7 @@ type SessionStoreValue = {
     data: Session | null;
     error: Error | null;
 };
-  
+
 interface SessionStore {
     subscribe: (cb: (value: SessionStoreValue) => void) => void | (() => void);
 }

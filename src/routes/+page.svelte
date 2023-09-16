@@ -1,3 +1,7 @@
-<h1>Welcome to your library project</h1>
-<p>Create your package using @sveltejs/package and preview/showcase your work with SvelteKit</p>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<h1>Welcome to SupaSvelte</h1>
+<p>This page is intended to give a quick access to test routes</p>
+<ul>
+    <li><a href="/auth">Auth</a></li>
+    <li><a href="/storage">Storage</a></li>
+    <li><a href="/realtime">Realtime</a></li>
+</ul>

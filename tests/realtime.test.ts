@@ -1,6 +1,6 @@
 import { expect, test, type Page } from '@playwright/test';
 
-test.describe.serial('Storage', () => {
+test.describe.serial('Realtime', () => {
 	let page1: Page;
 	let page2: Page;
 

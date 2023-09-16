@@ -22,7 +22,7 @@ This component does not accept any props.
 
 ```svelte
 <script lang="ts">
-    import { Unauthenticated } from "supasvelte";
+    import { Unauthenticated } from "supasveltekit";
 </script>
 
 <Unauthenticated>

@@ -20,7 +20,7 @@ This component has no slots.
 ```svelte
 <script lang="ts">
 	import { supabase } from '$lib/supabase';
-	import { SupabaseApp } from 'supasvelte';
+	import { SupabaseApp } from 'supasveltekit';
 </script>
 
 <SupabaseApp {supabase}>

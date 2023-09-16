@@ -1,8 +1,8 @@
-# SupaSvelte ⚡
+# SupaSvelteKit ⚡
 
 > 🌟 Where Svelte's elegance meets Supabase's might! 🌟
 
-SupaSvelte is a library designed to seamlessly integrate SvelteKit with Supabase, providing developers with a powerful toolkit to build dynamic web applications.
+SupaSvelteKit is a library designed to seamlessly integrate SvelteKit with Supabase, providing developers with a powerful toolkit to build dynamic web applications.
 
 ## 🎉 Features
 
@@ -14,7 +14,7 @@ SupaSvelte is a library designed to seamlessly integrate SvelteKit with Supabase
 ## 🛠 Installation
 
 ```bash
-npm install supasvelte
+npm install SupaSvelteKit
 ```
 
 ## 🚀 Quick Start
@@ -31,12 +31,12 @@ export const supabaseKey = PUBLIC_SUPABASE_KEY;
 export const supabase = createClient(supabaseUrl, supabaseKey);
 ```
 
-2. Use SupaSvelte components in your SvelteKit app:
+2. Use SupaSvelteKit components in your SvelteKit app:
 
 ```svelte
 <script lang="ts">
     import { supabase } from "$lib/supabase";
-    import { Authenticated, Unauthenticated, signIn, signOut } from "supasvelte";
+    import { Authenticated, Unauthenticated, signIn, signOut } from "SupaSvelteKit";
 </script>
 <SupabaseApp {supabase}>
     <Authenticated let:session let:signOut>    
@@ -54,22 +54,22 @@ export const supabase = createClient(supabaseUrl, supabaseKey);
 
 ## 📚 Documentation
 
-For detailed documentation, usage guides, and API references, dive into [our documentation site](http://supasvelte.openfrenchfries.com/).
+For detailed documentation, usage guides, and API references, dive into [our documentation site](http://SupaSvelteKit.openfrenchfries.com/).
 
 ## 📖 Examples
 
-Explore hands-on examples to get a feel for how SupaSvelte enhances your projects:
+Explore hands-on examples to get a feel for how SupaSvelteKit enhances your projects:
 - [Basic Todo App](https://github.com/orgs/OpenFrenchFries/repositories)
 - [Authentication Demo](https://github.com/orgs/OpenFrenchFries/repositories)
-- ... and more examples coming soon! If you've built something cool with SupaSvelte, let us know!
+- ... and more examples coming soon! If you've built something cool with SupaSvelteKit, let us know!
 
 ## 💪 Contributing
 
-Join the SupaSvelte journey! 🌍 Whether you're fixing bugs, suggesting enhancements, or enriching the documentation, every contribution counts. Dive into our [CONTRIBUTING.md](.github/CONTRIBUTING.md) to get started.
+Join the SupaSvelteKit journey! 🌍 Whether you're fixing bugs, suggesting enhancements, or enriching the documentation, every contribution counts. Dive into our [CONTRIBUTING.md](.github/CONTRIBUTING.md) to get started.
 
 ## 📜 License
 
-Freedom with responsibility! SupaSvelte is [MIT licensed](LICENSE), ensuring open use with acknowledgment.
+Freedom with responsibility! SupaSvelteKit is [MIT licensed](LICENSE), ensuring open use with acknowledgment.
 
 ## 🙌 Acknowledgements
 

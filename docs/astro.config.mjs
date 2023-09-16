@@ -5,9 +5,9 @@ import starlight from '@astrojs/starlight';
 export default defineConfig({
 	integrations: [
 		starlight({
-			title: 'SupaSvelte',
+			title: 'SupaSvelteKit',
 			social: {
-				github: 'https://github.com/OpenFrenchFries/SupaSvelte',
+				github: 'https://github.com/OpenFrenchFries/SupaSvelteKit',
 			},
 			sidebar: [
 				{

@@ -24,7 +24,7 @@ If applicable, add screenshots to help explain your problem.
 - OS: [e.g. macOS, Windows, Linux]
 - Browser [e.g. chrome, safari]
 - Version [e.g. 22]
-- SupaSvelte version: [e.g. v1.0.0]
+- SupaSvelteKit version: [e.g. v1.0.0]
 
 **Additional Context 📋**
 Add any other context about the problem here.

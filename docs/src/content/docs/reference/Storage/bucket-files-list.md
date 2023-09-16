@@ -28,7 +28,7 @@ You should have the `select` permission on `storage.objects` or on your bucket t
 
 ```svelte
 <script lang="ts">
-	import { BucketFilesList } from 'supasvelte';
+	import { BucketFilesList } from 'supasveltekit';
 </script>
 
 <BucketFilesList bucketName="test-bucket" path="public/" let:bucketFiles let:error>

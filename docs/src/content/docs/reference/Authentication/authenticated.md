@@ -24,7 +24,7 @@ This component does not accept any props.
 
 ```svelte
 <script lang="ts">
-	import { Authenticated } from 'supasvelte';
+	import { Authenticated } from 'supasveltekit';
 </script>
 
 <Authenticated let:session let:signOut>

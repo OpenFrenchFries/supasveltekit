@@ -8,7 +8,7 @@ description: A guide page to a quick first use of SupaSvelteKit.
 1. Install SupaSvelteKit:
 
 ```bash
-npm install SupaSvelteKit
+npm install supasveltekit
 ```
 
 2. Initialize your Supabase client:

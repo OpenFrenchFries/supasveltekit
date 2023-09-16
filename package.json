@@ -1,6 +1,7 @@
 {
 	"name": "supasveltekit",
 	"description": "🌟 Where Svelte's elegance meets Supabase's might! 🌟",
+	"license": "MIT",
 	"version": "0.1.0",
 	"scripts": {
 		"dev": "vite dev",

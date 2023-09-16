@@ -14,7 +14,7 @@ SupaSvelteKit is a library designed to seamlessly integrate SvelteKit with Supab
 ## 🛠 Installation
 
 ```bash
-npm install SupaSvelteKit
+npm install supasveltekit
 ```
 
 ## 🚀 Quick Start

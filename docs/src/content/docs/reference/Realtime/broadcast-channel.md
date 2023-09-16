@@ -27,7 +27,7 @@ This component must be a child of the `SupabaseApp` component to work.
 
 ```svelte
 <script lang="ts">
-	import { BroadcastChannel } from 'supasvelte';
+	import { BroadcastChannel } from 'supasveltekit';
 </script>
 
 <BroadcastChannel channelName="any" eventName="sync" let:payload let:error let:realtime let:channel>

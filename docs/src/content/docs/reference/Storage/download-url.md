@@ -25,7 +25,7 @@ This component must be a child of the `SupabaseApp` component to work.
 
 ```svelte
 <script lang="ts">
-	import { BucketContext, BucketFilesList } from 'supasvelte';
+	import { BucketContext, BucketFilesList } from 'supasveltekit';
 </script>
 
 <DownloadURL bucketName="my-bucket" path="path/to/file.jpg" let:url let:storage let:error expiration={3600}>

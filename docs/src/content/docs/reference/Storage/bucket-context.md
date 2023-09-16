@@ -22,7 +22,7 @@ This component has no slots.
 
 ```svelte
 <script lang="ts">
-	import { BucketContext, BucketFilesList } from 'supasvelte';
+	import { BucketContext, BucketFilesList } from 'supasveltekit';
 </script>
 
 <BucketContext name="test-bucket" path="public/">

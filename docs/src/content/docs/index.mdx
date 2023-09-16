@@ -1,14 +1,14 @@
 ---
 title: Getting Started
-description: A guide page to a quick first use of SupaSvelte.
+description: A guide page to a quick first use of SupaSvelteKit.
 ---
 
 ## 🚀 Quick Start
 
-1. Install SupaSvelte:
+1. Install SupaSvelteKit:
 
 ```bash
-npm install supasvelte
+npm install SupaSvelteKit
 ```
 
 2. Initialize your Supabase client:
@@ -23,12 +23,12 @@ export const supabaseKey = PUBLIC_SUPABASE_KEY;
 export const supabase = createClient(supabaseUrl, supabaseKey);
 ```
 
-3. Use SupaSvelte components in your SvelteKit app:
+3. Use SupaSvelteKit components in your SvelteKit app:
 
 ```svelte
 <script lang="ts">
     import { supabase } from "$lib/supabase";
-    import { Authenticated, Unauthenticated, signIn, signOut } from "supasvelte";
+    import { Authenticated, Unauthenticated, signIn, signOut } from "SupaSvelteKit";
 </script>
 <SupabaseApp {supabase}>
     <Authenticated let:session let:signOut>    

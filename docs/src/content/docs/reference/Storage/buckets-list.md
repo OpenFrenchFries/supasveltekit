@@ -25,7 +25,7 @@ This component has one slot named `default` which accepts the following props:
 
 ```svelte
 <script lang="ts">
-	import { BucketsList } from 'supasvelte';
+	import { BucketsList } from 'supasveltekit';
 </script>
 
 <BucketsList let:buckets let:error>

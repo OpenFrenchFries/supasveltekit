@@ -11,7 +11,7 @@ The session store is a readable store that contains the session data. It can be 
 
 ```svelte
 <script lang="ts">
-    import { sessionStore } from "supasvelte";
+    import { sessionStore } from "supasveltekit";
     
     const supabaseUrl = "https://<your-supabase-url>.supabase.co";
     const supabaseKey = "<your-supabase-key>";

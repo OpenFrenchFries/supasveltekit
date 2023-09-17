@@ -28,7 +28,7 @@ export const supabase = createClient(supabaseUrl, supabaseKey);
 ```svelte
 <script lang="ts">
     import { supabase } from "$lib/supabase";
-    import { Authenticated, Unauthenticated, signIn, signOut } from "supasveltekit";
+    import { Authenticated, Unauthenticated } from "supasveltekit";
 </script>
 <SupabaseApp {supabase}>
     <Authenticated let:session let:signOut>    

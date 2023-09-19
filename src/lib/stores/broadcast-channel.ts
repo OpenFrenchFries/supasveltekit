@@ -45,9 +45,6 @@ export function broadcastChannelStore<T>(
             })
 			.subscribe((status) => {
 				switch (status) {
-					case 'SUBSCRIBED':
-						console.log('Connected to channel', channelName);
-						break;
 					case 'CLOSED':
 						set({ data: null, error: new Error(`Channel ${channelName} closed`) });
 						break;

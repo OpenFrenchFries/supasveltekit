@@ -49,16 +49,9 @@ export function presenceStateStore<T extends Record<string, unknown>>(
 						channel.track(userStatus);
 						break;
 					case 'CLOSED':
-						set({ data: null, error: new Error(`Channel ${channelName} closed`) });
-						break;
 					case 'CHANNEL_ERROR':
-						set({ data: null, error: new Error(`Channel ${channelName} error`) });
-						break;
 					case 'TIMED_OUT':
-						set({
-							data: null,
-							error: new Error(`Channel ${channelName} timed out after ${channel.timeout}ms`)
-						});
+						set({ data: null, error: new Error(`Channel ${channelName} error: ${status}`) });
 						break;
 				}
 			});
@@ -122,7 +115,7 @@ export function userStatusStore<T extends Record<string, unknown>>(
 				if (!status) {
 					return previous;
 				}
-				const newValues = Object.assign({}, previous.data, status);
+				const newValues = {...previous.data, ...status};
 				channel.track(newValues);
 				return { data: newValues, error: null };
 			});

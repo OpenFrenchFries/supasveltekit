@@ -38,7 +38,7 @@ export function bucketFilesListStore(
 		};
 	}
 
-	//If the auth is not initialized, return a dummy store
+	//If the storage is not initialized, return a dummy store
 	if (!storage) {
 		console.warn('Storage is not initialized. Did you forget to create a `supabase` instance?');
 		const { subscribe } = readable({ data: [], error: new Error('Storage is not initialized') });

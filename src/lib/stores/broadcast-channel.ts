@@ -25,7 +25,7 @@ export function broadcastChannelStore<T>(
 		};
 	}
 
-	//If the auth is not initialized, return a dummy store
+	//If realtime is not initialized, return a dummy store
 	if (!realtime) {
 		console.warn('Realtime is not initialized. Did you forget to create a `supabase` instance?');
 		const { subscribe } = readable({ data: null, error: new Error('Realtime is not initialized') });

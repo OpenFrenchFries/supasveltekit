@@ -9,7 +9,7 @@ import Uploader from './components/storage/Uploader.svelte';
 import BroadcastChannel from './components/realtime/BroadcastChannel.svelte';
 import { sessionStore } from './stores/session.js';
 import { bucketFilesListStore, bucketsListStore, downloadURLStore, uploadStore } from './stores/bucket.js';
-import { broadcastChannelStore } from './stores/channel.js';
+import { broadcastChannelStore } from './stores/broadcast-channel.js';
 
 export {
     SupabaseApp,

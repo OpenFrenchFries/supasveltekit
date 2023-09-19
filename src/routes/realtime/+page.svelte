@@ -1,5 +1,6 @@
 <script lang="ts">
 	import BroadcastChannel from "$lib/components/realtime/BroadcastChannel.svelte";
+	import RealtimePresence from "$lib/components/realtime/RealtimePresence.svelte";
 
     const channelName = "any";
     const eventName = "message";
@@ -17,3 +18,18 @@
     }}>Send message</button>
     <p data-testid="received-message">Last message received: {payload?.message}</p>
 </BroadcastChannel>
+
+<RealtimePresence channelName="multiplayer" let:state on:join={(userData) => console.log("New user joined")}>
+    <h2>Presence</h2>
+    <p>Channel name: {channelName}</p>
+    <p>Users online: {Object.keys(state ?? {}).length}</p>
+    {#if state}
+    <ul>
+        {#each Object.values(state) as user}
+            {#each user as userData}
+                <li>{userData.presence_ref}</li>
+            {/each}
+        {/each}
+    </ul>
+    {/if}
+</RealtimePresence>

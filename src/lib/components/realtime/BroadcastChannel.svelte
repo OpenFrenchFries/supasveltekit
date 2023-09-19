@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { broadcastChannelStore } from '$lib/stores/channel.js';
+	import { broadcastChannelStore } from '$lib/stores/broadcast-channel.js';
 	import { getSupabaseContext } from '$lib/stores/supabase-sdk.js';
 	import type { RealtimeChannel, RealtimeClient } from '@supabase/supabase-js';
 

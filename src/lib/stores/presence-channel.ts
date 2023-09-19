@@ -1,5 +1,5 @@
-import { readable } from 'svelte/store';
-import type { RealtimeChannel, RealtimeClient, RealtimePresenceState } from '@supabase/supabase-js';
+import { readable, writable } from 'svelte/store';
+import type { RealtimeChannel, RealtimeChannelOptions, RealtimeClient, RealtimePresenceState } from '@supabase/supabase-js';
 
 type PresenceStateStoreValue<T extends Record<string, unknown>> = {
 	data: RealtimePresenceState<T> | null;
@@ -8,20 +8,21 @@ type PresenceStateStoreValue<T extends Record<string, unknown>> = {
 
 interface PresenceChannelStore<T extends Record<string, unknown>> {
 	subscribe: (cb: (value: PresenceStateStoreValue<T>) => void) => void | (() => void);
-    channel: RealtimeChannel | null;
+	channel: RealtimeChannel | null;
 }
 
 export function presenceStateStore<T extends Record<string, unknown>>(
 	realtime: RealtimeClient,
 	channelName: string,
-	userStatus: T = {} as T,
+	channelOptions: RealtimeChannelOptions | undefined = undefined,
+	userStatus: T = {} as T
 ): PresenceChannelStore<T> {
 	// SSR
 	if (!globalThis.window) {
 		const { subscribe } = readable({ data: null, error: null });
 		return {
 			subscribe,
-            channel: null
+			channel: null
 		};
 	}
 
@@ -31,17 +32,17 @@ export function presenceStateStore<T extends Record<string, unknown>>(
 		const { subscribe } = readable({ data: null, error: new Error('Realtime is not initialized') });
 		return {
 			subscribe,
-            channel: null
+			channel: null
 		};
 	}
 
-    const channel = realtime.channel(channelName);
+	const channel = realtime.channel(channelName, channelOptions);
 
 	const { subscribe } = readable<PresenceStateStoreValue<T>>({ data: null, error: null }, (set) => {
 		const subscription = channel
-			.on("presence", { event: "sync" }, () => {
-                set({ data: channel.presenceState(), error: null })
-            })
+			.on('presence', { event: 'sync' }, () => {
+				set({ data: channel.presenceState(), error: null });
+			})
 			.subscribe((status) => {
 				switch (status) {
 					case 'SUBSCRIBED':
@@ -69,6 +70,62 @@ export function presenceStateStore<T extends Record<string, unknown>>(
 
 	return {
 		subscribe,
-        channel
+		channel
+	};
+}
+
+type UserStatusStoreValue<T extends Record<string, unknown>> = {
+	data: T | null;
+	error: Error | null;
+};
+
+interface UserStatusStore<T extends Record<string, unknown>> {
+	subscribe: (cb: (value: UserStatusStoreValue<T>) => void) => void | (() => void);
+	updateStatus: (status: T) => void;
+}
+
+export function userStatusStore<T extends Record<string, unknown>>(
+	channel: RealtimeChannel,
+	userStatus: T = {} as T
+): UserStatusStore<T> {
+	// SSR
+	if (!globalThis.window) {
+		const { subscribe } = readable({ data: null, error: null });
+		return {
+			subscribe,
+			updateStatus: () => {
+				throw new Error('Not implemented');
+			}
+		};
+	}
+
+	//If channel is not initialized, return a dummy store
+	if (!channel) {
+		console.warn('Channel is not initialized. Did you forget to create a `channel` instance?');
+		const { subscribe } = readable({ data: null, error: new Error('Channel is not initialized') });
+		return {
+			subscribe,
+			updateStatus: () => {
+				throw new Error('Not implemented');
+			}
+		};
+	}
+
+	const { subscribe, update } = writable<UserStatusStoreValue<T>>(
+		{ data: userStatus, error: null }
+	);
+
+	return {
+		subscribe,
+		updateStatus: (status: T) => {
+			update((previous) => {
+				if (!status) {
+					return previous;
+				}
+				const newValues = Object.assign({}, previous.data, status);
+				channel.track(newValues);
+				return { data: newValues, error: null };
+			});
+		}
 	};
 }

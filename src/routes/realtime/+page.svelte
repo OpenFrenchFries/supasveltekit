@@ -4,6 +4,8 @@
 
     const channelName = "any";
     const eventName = "message";
+
+    let userStatus = {userName: "John Doe", status: "offline"};
     
 </script>
 
@@ -19,17 +21,19 @@
     <p data-testid="received-message">Last message received: {payload?.message}</p>
 </BroadcastChannel>
 
-<RealtimePresence channelName="multiplayer" let:state on:join={(userData) => console.log("New user joined")}>
+<RealtimePresence channelName="multiplayer" {userStatus} let:state let:updateStatus on:join={(userData) => console.log("New user joined")} on:leave={() => console.log("User left")}>
     <h2>Presence</h2>
     <p>Channel name: {channelName}</p>
-    <p>Users online: {Object.keys(state ?? {}).length}</p>
     {#if state}
+    <p>Users online: <span data-testid="users-online">{Object.values(state).flatMap(v => v.filter(x => x.status === "online")).length}</span></p>
     <ul>
-        {#each Object.values(state) as user}
-            {#each user as userData}
-                <li>{userData.presence_ref}</li>
-            {/each}
+        {#each Object.values(state).flatMap(v => v.filter(x => x.status === "online")) as user}
+            <li data-testid="{user.userName}">{user.userName}</li>
         {/each}
     </ul>
+    <input data-testid="username" type="text" bind:value={userStatus.userName} />
+    <button on:click={() => updateStatus({...userStatus, status: "online"})}>Set status to online</button>
+    {:else}
+    <p>Users online: <span>0</span></p>
     {/if}
 </RealtimePresence>

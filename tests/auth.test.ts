@@ -1,6 +1,6 @@
 import { expect, test, type Page } from '@playwright/test';
 
-test.describe.serial('Auth', () => {
+test.describe.parallel('Auth', () => {
 	let page: Page;
 
 	test.beforeAll(async ({ browser }) => {

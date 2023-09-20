@@ -7,9 +7,11 @@ import BucketsList from './components/storage/BucketsList.svelte';
 import DownloadURL from './components/storage/DownloadURL.svelte';
 import Uploader from './components/storage/Uploader.svelte';
 import BroadcastChannel from './components/realtime/BroadcastChannel.svelte';
+import RealtimePresence from './components/realtime/RealtimePresence.svelte';
 import { sessionStore } from './stores/session.js';
 import { bucketFilesListStore, bucketsListStore, downloadURLStore, uploadStore } from './stores/bucket.js';
 import { broadcastChannelStore } from './stores/broadcast-channel.js';
+import { presenceStateStore, userStatusStore } from './stores/presence-channel.js';
 
 export {
     SupabaseApp,
@@ -21,10 +23,13 @@ export {
     DownloadURL,
     Uploader,
     BroadcastChannel,
+    RealtimePresence,
     sessionStore,
     bucketFilesListStore,
     bucketsListStore,
     downloadURLStore,
     uploadStore,
     broadcastChannelStore,
+    presenceStateStore,
+    userStatusStore
 }

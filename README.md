@@ -22,8 +22,8 @@ npm install supasveltekit
 1. Initialize your Supabase client:
 
 ```ts
-import { PUBLIC_SUPABASE_KEY, PUBLIC_SUPABASE_URL } from "$env/static/public";
-import { createClient } from "@supabase/supabase-js";
+import { PUBLIC_SUPABASE_KEY, PUBLIC_SUPABASE_URL } from '$env/static/public';
+import { createClient } from '@supabase/supabase-js';
 
 export const supabaseUrl = PUBLIC_SUPABASE_URL;
 export const supabaseKey = PUBLIC_SUPABASE_KEY;
@@ -35,20 +35,48 @@ export const supabase = createClient(supabaseUrl, supabaseKey);
 
 ```svelte
 <script lang="ts">
-    import { supabase } from "$lib/supabase";
-    import { Authenticated, Unauthenticated } from "supasveltekit";
+	import { supabase } from '$lib/supabase';
+	import { Authenticated, Unauthenticated, RealtimePresence, BucketFilesList } from 'supasveltekit';
 </script>
+
 <SupabaseApp {supabase}>
-    <Authenticated let:session let:signOut>    
-        <h1>Welcome, {session?.user?.identities?.[0]?.identity_data?.email}!</h1>
-        <button on:click={() => signOut()}>Sign Out</button>
-    </Authenticated>
+	<Authenticated let:session let:signOut>
+		<h1>Welcome, {session?.user?.identities?.[0]?.identity_data?.email}!</h1>
+		<button on:click={() => signOut()}>Sign Out</button>
 
-    <Unauthenticated>
-        <h1>Sign in to continue</h1>
-        <button on:click={() => signIn()}>Sign In</button>
-    </Unauthenticated>
+		<BucketFilesList bucketName="test-bucket" path="public/" let:bucketFiles let:error>
+			{#if error !== null}
+				<div>{error}</div>
+			{/if}
+			<ul>
+				{#each bucketFiles as file}
+					<li>
+						{file.name}
+					</li>
+				{/each}
+			</ul>
+		</BucketFilesList>
 
+		<RealtimePresence channelName="my-channel">
+			<div slot="default" let:state let:error let:realtime let:channel let:updateStatus>
+				{#if error}
+					<p>Error: {error.message}</p>
+				{:else if !state}
+					<p>Loading...</p>
+				{:else}
+					<p>Connected to channel {channel?.name}</p>
+					<p>Number of users: {state?.count}</p>
+					<button on:click={() => updateStatus({ status: 'online' })}>Go online</button>
+					<button on:click={() => updateStatus({ status: 'offline' })}>Go offline</button>
+				{/if}
+			</div>
+		</RealtimePresence>
+	</Authenticated>
+
+	<Unauthenticated>
+		<h1>Sign in to continue</h1>
+		<button on:click={() => signIn()}>Sign In</button>
+	</Unauthenticated>
 </SupabaseApp>
 ```
 
@@ -59,6 +87,7 @@ For detailed documentation, usage guides, and API references, dive into [our doc
 ## 📖 Examples
 
 Explore hands-on examples to get a feel for how SupaSvelteKit enhances your projects:
+
 - [Basic Todo App](https://github.com/orgs/OpenFrenchFries/repositories)
 - [Authentication Demo](https://github.com/orgs/OpenFrenchFries/repositories)
 - ... and more examples coming soon! If you've built something cool with SupaSvelteKit, let us know!
@@ -74,6 +103,7 @@ Freedom with responsibility! SupaSvelteKit is [MIT licensed](LICENSE), ensuring 
 ## 🙌 Acknowledgements
 
 A big shoutout 📣:
+
 - To the Svelte and Supabase communities for lighting the way with invaluable resources and support.
 - To every coder, contributor, and coffee mug that's been part of this journey. ☕
 

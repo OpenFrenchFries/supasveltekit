@@ -28,18 +28,45 @@ export const supabase = createClient(supabaseUrl, supabaseKey);
 ```svelte
 <script lang="ts">
     import { supabase } from "$lib/supabase";
-    import { Authenticated, Unauthenticated } from "supasveltekit";
+    import { Authenticated, Unauthenticated, BucketFilesList, RealtimePresence } from "supasveltekit";
 </script>
 <SupabaseApp {supabase}>
-    <Authenticated let:session let:signOut>    
-        <h1>Welcome, {session?.user?.identities?.[0]?.identity_data?.email}!</h1>
-        <button on:click={() => signOut()}>Sign Out</button>
-    </Authenticated>
+	<Authenticated let:session let:signOut>
+		<h1>Welcome, {session?.user?.identities?.[0]?.identity_data?.email}!</h1>
+		<button on:click={() => signOut()}>Sign Out</button>
 
-    <Unauthenticated>
-        <h1>Sign in to continue</h1>
-        <button on:click={() => signIn()}>Sign In</button>
-    </Unauthenticated>
+		<BucketFilesList bucketName="test-bucket" path="public/" let:bucketFiles let:error>
+			{#if error !== null}
+				<div>{error}</div>
+			{/if}
+			<ul>
+				{#each bucketFiles as file}
+					<li>
+						{file.name}
+					</li>
+				{/each}
+			</ul>
+		</BucketFilesList>
 
+		<RealtimePresence channelName="my-channel">
+			<div slot="default" let:state let:error let:realtime let:channel let:updateStatus>
+				{#if error}
+					<p>Error: {error.message}</p>
+				{:else if !state}
+					<p>Loading...</p>
+				{:else}
+					<p>Connected to channel {channel?.name}</p>
+					<p>Number of users: {state?.count}</p>
+					<button on:click={() => updateStatus({ status: 'online' })}>Go online</button>
+					<button on:click={() => updateStatus({ status: 'offline' })}>Go offline</button>
+				{/if}
+			</div>
+		</RealtimePresence>
+	</Authenticated>
+
+	<Unauthenticated>
+		<h1>Sign in to continue</h1>
+		<button on:click={() => signIn()}>Sign In</button>
+	</Unauthenticated>
 </SupabaseApp>
 ```

@@ -19,8 +19,8 @@ npm install supasveltekit
 
 ## 🚀 Quick Start
 
-1. Initialize your Supabase client:
-
+1. Initialize your Supabase client:  
+```src/lib/supabase.ts```
 ```ts
 import { PUBLIC_SUPABASE_KEY, PUBLIC_SUPABASE_URL } from '$env/static/public';
 import { createClient } from '@supabase/supabase-js';
@@ -31,12 +31,12 @@ export const supabaseKey = PUBLIC_SUPABASE_KEY;
 export const supabase = createClient(supabaseUrl, supabaseKey);
 ```
 
-2. Use SupaSvelteKit components in your SvelteKit app:
-
+2. Use SupaSvelteKit components in your SvelteKit app:  
+```src/routes/+page.svelte```
 ```svelte
 <script lang="ts">
 	import { supabase } from '$lib/supabase';
-	import { Authenticated, Unauthenticated, RealtimePresence, BucketFilesList } from 'supasveltekit';
+	import { SupabaseApp, Authenticated, Unauthenticated, RealtimePresence, BucketFilesList } from 'supasveltekit';
 </script>
 
 <SupabaseApp {supabase}>

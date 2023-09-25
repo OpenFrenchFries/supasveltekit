@@ -12,9 +12,12 @@
 			error: Error | null;
 			storage: StorageClient;
 		};
+		loading: {};
 	}
 </script>
 
 {#if $buckets}
 	<slot buckets={$buckets.data} {storage} error={$buckets.error} />
+{:else}
+	<slot name="loading" />
 {/if}

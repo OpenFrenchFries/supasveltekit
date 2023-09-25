@@ -16,9 +16,12 @@
 			realtime: RealtimeClient;
             channel: RealtimeChannel | null;
 		};
+		loading: {};
 	}
 </script>
 
 {#if $channel}
 	<slot payload={$channel.data} {realtime} error={$channel.error} channel={channel.channel} />
+{:else}
+	<slot name="loading" />
 {/if}

@@ -32,9 +32,12 @@
 			channel: RealtimeChannel | null;
 			updateStatus: (status: Record<string, any>) => void;
 		};
+		loading: {};
 	}
 </script>
 
 {#if $store && $status}
 	<slot state={$store.data} {realtime} error={$store.error} channel={store.channel} updateStatus={status.updateStatus} />
+{:else}
+	<slot name="loading" />
 {/if}

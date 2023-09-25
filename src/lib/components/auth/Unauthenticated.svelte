@@ -11,9 +11,12 @@
 			auth: SupabaseAuthClient;
 			error: Error | null;
 		};
+		loading: {};
 	}
 </script>
 
-{#if !$session || !$session.data || !!$session.error}
+{#if !$session}
+	<slot name="loading" />
+{:else if !$session.data || !!$session.error}
 	<slot {auth} error={$session?.error} />
 {/if}

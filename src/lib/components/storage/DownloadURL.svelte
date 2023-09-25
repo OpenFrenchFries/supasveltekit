@@ -40,9 +40,12 @@
 			error: Error | null;
 			storage: StorageClient;
 		};
+		loading: {};
 	}
 </script>
 
 {#if $downloadUrl}
 	<slot url={$downloadUrl.data} {storage} error={$downloadUrl.error} />
+{:else}
+	<slot name="loading" />
 {/if}

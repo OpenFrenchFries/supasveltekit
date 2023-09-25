@@ -14,9 +14,12 @@
 			auth: SupabaseAuthClient;
 			signOut: () => Promise<{ error: AuthError | null }>;
 		};
+		loading: {};
 	}
 </script>
 
-{#if $session && $session?.data}
+{#if !$session}
+	<slot name="loading" />
+{:else if $session && $session?.data}
 	<slot session={$session.data} {auth} error={$session.error} signOut={() => auth.signOut()} />
 {/if}

@@ -1,21 +1,36 @@
 import { readable } from 'svelte/store';
 import type { RealtimeChannel, RealtimeClient } from '@supabase/supabase-js';
 
-type BroadcastChannelStoreValue<T> = {
-	data: T | null;
+export type DbChangeEventTypes = "INSERT" | "UPDATE" | "DELETE" | "*";
+
+export type DbChangeData<T> = {
+	schema:string,
+	table: string, 
+	commit_timestamp:string,
+	eventType: DbChangeEventTypes,
+	new: T,
+	old: T,
+	errors: Error[]
+}
+
+type DbChangesStoreValue<T> = {
+	data: DbChangeData<T> | null;
 	error: Error | null;
 };
 
-interface BroadcastChannelStore<T> {
-	subscribe: (cb: (value: BroadcastChannelStoreValue<T>) => void) => void | (() => void);
+interface DbChangesChannelStore<T> {
+	subscribe: (cb: (value: DbChangesStoreValue<T>) => void) => void | (() => void);
     channel: RealtimeChannel | null;
 }
 
-export function broadcastChannelStore<T>(
+export function dbChangesChannelStore<T>(
 	realtime: RealtimeClient,
 	channelName: string,
-	eventName: string
-): BroadcastChannelStore<T> {
+	event: string,
+	schema: string,
+	table: string | null,
+	filter: string | null
+): DbChangesChannelStore<T> {
 	// SSR
 	if (!globalThis.window) {
 		const { subscribe } = readable({ data: null, error: null });
@@ -35,12 +50,15 @@ export function broadcastChannelStore<T>(
 		};
 	}
 
+	let params: Partial<{event: string, schema: string, table: string, filter: string}> = { event, schema };
+	if(table) params = { ...params, table };
+	if(filter) params = { ...params, filter };
     const channel = realtime.channel(channelName);
 
-	const { subscribe } = readable<BroadcastChannelStoreValue<T>>({ data: null, error: null }, (set) => {
+	const { subscribe } = readable<DbChangesStoreValue<T>>({ data: null, error: null }, (set) => {
 		const subscription = channel
-			.on('broadcast', { event: eventName }, (payload) => {
-                set({ data: payload as T, error: null })
+			.on('postgres_changes', params, (payload: DbChangeData<T>) => {
+                set({ data: payload, error: null })
             })
 			.subscribe((status) => {
 				switch (status) {

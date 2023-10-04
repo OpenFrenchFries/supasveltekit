@@ -1,5 +1,6 @@
 <script lang="ts">
 	import BroadcastChannel from "$lib/components/realtime/BroadcastChannel.svelte";
+	import DbChanges from "$lib/components/realtime/DBChanges.svelte";
 	import RealtimePresence from "$lib/components/realtime/RealtimePresence.svelte";
 
     const channelName = "any";
@@ -37,3 +38,8 @@
     <p>Users online: <span>0</span></p>
     {/if}
 </RealtimePresence>
+
+<DbChanges event="*" schema="public" table="Test" let:payload>
+    <h2>DB Changes</h2>
+    <p data-testid="received-change">Last change received: {JSON.stringify(payload)}</p>
+</DbChanges>

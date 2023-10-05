@@ -25,7 +25,7 @@
 
 <RealtimePresence channelName="multiplayer" {userStatus} let:state let:updateStatus on:join={(userData) => console.log("New user joined")} on:leave={() => console.log("User left")}>
     <h2>Presence</h2>
-    <p>Channel name: {channelName}</p>
+    <p>Channel name: multiplayer</p>
     {#if state}
     <p>Users online: <span data-testid="users-online">{Object.values(state).flatMap(v => v.filter(x => x.status === "online")).length}</span></p>
     <ul>
@@ -40,7 +40,7 @@
     {/if}
 </RealtimePresence>
 
-<DbChanges event="*" schema="public" table="test" let:payload>
+<DbChanges channelName="db" event="*" schema="public" table="test" let:payload>
     <h2>DB Changes</h2>
     <p>Last change received: <strong data-testid="received-change">{payload?.eventType ?? "none"}</strong></p>
     <button on:click={async () => {

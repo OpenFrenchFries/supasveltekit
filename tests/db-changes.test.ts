@@ -6,6 +6,7 @@ test.describe.parallel('DB Changes', () => {
 	test.beforeAll(async ({ browser }) => {
 		page = await browser.newPage();
 		await page.goto('/realtime');
+		await page.waitForLoadState('networkidle');
 	});
 
 	test.afterAll(async () => {
@@ -15,7 +16,7 @@ test.describe.parallel('DB Changes', () => {
 	test('should listen to db update', async () => {
 		await expect(page.getByTestId("received-change")).toContainText("none");
 
-		await page.getByRole('button', { name: 'Insert data in DB' }).click();
+		await page.getByRole('button', { name: 'Insert data in DB' }).click({delay: 1000});
 
 		await expect(page.getByTestId("received-change")).toHaveText("INSERT");
 		

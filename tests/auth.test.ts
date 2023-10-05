@@ -6,6 +6,7 @@ test.describe.parallel('Auth', () => {
 	test.beforeAll(async ({ browser }) => {
 		page = await browser.newPage();
 		await page.goto('/auth');
+		await page.waitForLoadState('networkidle');
 	});
 
 	test.afterAll(async () => {

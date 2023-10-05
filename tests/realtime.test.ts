@@ -10,7 +10,6 @@ test.describe.parallel('Realtime', () => {
 		page2 = await browser.newPage();
 		await page2.goto('/realtime');
 		
-		//await page1.waitForTimeout(1000);
 		await page1.waitForLoadState('networkidle');
 		await page2.waitForLoadState('networkidle');
 	});

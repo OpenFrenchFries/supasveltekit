@@ -1,6 +1,6 @@
 <script lang="ts">
 	import BroadcastChannel from "$lib/components/realtime/BroadcastChannel.svelte";
-	import DbChanges from "$lib/components/realtime/DBChanges.svelte";
+	import DbChanges from "$lib/components/realtime/DbChanges.svelte";
 	import RealtimePresence from "$lib/components/realtime/RealtimePresence.svelte";
 	import { supabase } from "../constants.js";
 

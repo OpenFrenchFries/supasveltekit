@@ -40,7 +40,6 @@ export function broadcastChannelStore<T>(
 	const { subscribe } = readable<BroadcastChannelStoreValue<T>>({ data: null, error: null }, (set) => {
 		const subscription = channel
 			.on('broadcast', { event: eventName }, (payload) => {
-                console.log("Broadcast received:", payload);
                 set({ data: payload as T, error: null })
             })
 			.subscribe((status) => {

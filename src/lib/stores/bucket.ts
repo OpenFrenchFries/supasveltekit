@@ -190,7 +190,6 @@ export function uploadStore(
 	}
 
 	const { subscribe } = readable<UploadedFile>({ data: null, error: null }, (set) => {
-		console.log('Uploading file', file.name,options);
 		storage
 			.from(bucketName)
 			.upload(path + file.name, file, options)

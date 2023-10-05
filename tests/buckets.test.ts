@@ -6,6 +6,7 @@ test.describe.parallel('Storage', () => {
 	test.beforeAll(async ({ browser }) => {
 		page = await browser.newPage();
 		await page.goto('/storage');
+		await page.waitForLoadState('networkidle');
 	});
 
 	test.beforeEach(async () => {

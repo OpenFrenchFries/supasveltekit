@@ -41,8 +41,14 @@ export function dbChangesChannelStore<T extends Record<string, unknown>, EventTy
 	}
 
 	let params: Partial<RealtimePostgresChangesFilter<EventType>> = { event, schema };
-	if(table) params = { ...params, table };
-	if(filter) params = { ...params, filter };
+	
+	if(table) { 
+		params = { ...params, table };
+	}
+	if(filter) {
+		params = { ...params, filter };
+	}
+
     const channel = realtime.channel(channelName);
 
 	const { subscribe } = readable<DbChangesStoreValue<T>>({ data: null, error: null }, (set) => {
@@ -53,15 +59,11 @@ export function dbChangesChannelStore<T extends Record<string, unknown>, EventTy
 			.subscribe((status) => {
 				switch (status) {
 					case 'CLOSED':
-						set({ data: null, error: new Error(`Channel ${channelName} closed`) });
-						break;
 					case 'CHANNEL_ERROR':
-						set({ data: null, error: new Error(`Channel ${channelName} error`) });
-						break;
 					case 'TIMED_OUT':
 						set({
 							data: null,
-							error: new Error(`Channel ${channelName} timed out after ${channel.timeout}ms`)
+							error: new Error(`Channel error: ${channelName} - ${status}`)
 						});
 						break;
 				}

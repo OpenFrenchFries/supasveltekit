@@ -6,3 +6,5 @@ create table
             time zone null default now (),
             constraint test_pkey primary key (id)
     ) tablespace pg_default;
+
+alter publication supabase_realtime add table test;

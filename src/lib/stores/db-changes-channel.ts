@@ -1,32 +1,22 @@
 import { readable } from 'svelte/store';
-import type { RealtimeChannel, RealtimeClient } from '@supabase/supabase-js';
+import type { RealtimeChannel, RealtimeClient, RealtimePostgresChangesFilter, RealtimePostgresChangesPayload } from '@supabase/supabase-js';
 
 export type DbChangeEventTypes = "INSERT" | "UPDATE" | "DELETE" | "*";
 
-export type DbChangeData<T> = {
-	schema:string,
-	table: string, 
-	commit_timestamp:string,
-	eventType: DbChangeEventTypes,
-	new: T,
-	old: T,
-	errors: Error[]
-}
-
-type DbChangesStoreValue<T> = {
-	data: DbChangeData<T> | null;
+type DbChangesStoreValue<T extends Record<string, unknown>> = {
+	data: RealtimePostgresChangesPayload<T> | null;
 	error: Error | null;
 };
 
-interface DbChangesChannelStore<T> {
+interface DbChangesChannelStore<T extends Record<string, unknown>> {
 	subscribe: (cb: (value: DbChangesStoreValue<T>) => void) => void | (() => void);
     channel: RealtimeChannel | null;
 }
 
-export function dbChangesChannelStore<T>(
+export function dbChangesChannelStore<T extends Record<string, unknown>, EventType extends "*" | "INSERT" | "UPDATE" | "DELETE">(
 	realtime: RealtimeClient,
 	channelName: string,
-	event: string,
+	event: EventType,
 	schema: string,
 	table: string | null,
 	filter: string | null
@@ -50,14 +40,14 @@ export function dbChangesChannelStore<T>(
 		};
 	}
 
-	let params: Partial<{event: string, schema: string, table: string, filter: string}> = { event, schema };
+	let params: Partial<RealtimePostgresChangesFilter<EventType>> = { event, schema };
 	if(table) params = { ...params, table };
 	if(filter) params = { ...params, filter };
     const channel = realtime.channel(channelName);
 
 	const { subscribe } = readable<DbChangesStoreValue<T>>({ data: null, error: null }, (set) => {
 		const subscription = channel
-			.on('postgres_changes', params, (payload: DbChangeData<T>) => {
+			.on('postgres_changes', params, (payload: RealtimePostgresChangesPayload<T>) => {
                 set({ data: payload, error: null })
             })
 			.subscribe((status) => {

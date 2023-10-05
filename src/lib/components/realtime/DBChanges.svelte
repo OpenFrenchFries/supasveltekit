@@ -1,10 +1,10 @@
 <script lang="ts">
 	import { dbChangesChannelStore } from '$lib/stores/db-changes-channel.js';
 	import { getSupabaseContext } from '$lib/stores/supabase-sdk.js';
-	import type { RealtimeChannel, RealtimeClient } from '@supabase/supabase-js';
+	import type { RealtimeChannel, RealtimeClient, RealtimePostgresChangesPayload } from '@supabase/supabase-js';
 
 	export let channelName: string = 'any';
-	export let event: string = '*';
+	export let event: "*" | "INSERT" | "UPDATE" | "DELETE"  = '*';
     export let schema: string = '*';
     export let table: string | null = null;
     export let filter: string | null = null;
@@ -14,7 +14,7 @@
 	
 	interface $$Slots {
 		default: {
-			payload: unknown | null;
+			payload: RealtimePostgresChangesPayload<Record<string, unknown>> | null;
 			error: Error | null;
 			realtime: RealtimeClient;
             channel: RealtimeChannel | null;

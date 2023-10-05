@@ -2,6 +2,7 @@
 	import BroadcastChannel from "$lib/components/realtime/BroadcastChannel.svelte";
 	import DbChanges from "$lib/components/realtime/DBChanges.svelte";
 	import RealtimePresence from "$lib/components/realtime/RealtimePresence.svelte";
+	import { supabase } from "../constants.js";
 
     const channelName = "any";
     const eventName = "message";
@@ -16,8 +17,8 @@
     <p>Channel name: {channel?.topic}</p>
     <p>Event name: {eventName}</p>
     <p>Channel started: {!!channel}</p>
-    <button on:click={() => {
-        channel?.send({type: 'broadcast', event: eventName, message: `Hello from ${channelName}/${eventName}!`})
+    <button on:click={async () => {
+        await channel?.send({type: 'broadcast', event: eventName, message: `Hello from ${channelName}/${eventName}!`})
     }}>Send message</button>
     <p data-testid="received-message">Last message received: {payload?.message}</p>
 </BroadcastChannel>
@@ -39,7 +40,12 @@
     {/if}
 </RealtimePresence>
 
-<DbChanges event="*" schema="public" table="Test" let:payload>
+<DbChanges event="*" schema="public" table="test" let:payload>
     <h2>DB Changes</h2>
-    <p data-testid="received-change">Last change received: {JSON.stringify(payload)}</p>
+    <p>Last change received: <strong data-testid="received-change">{payload?.eventType ?? "none"}</strong></p>
+    <button on:click={async () => {
+        await supabase
+            .from('test')
+            .insert({})
+    }}>Insert data in DB</button>
 </DbChanges>

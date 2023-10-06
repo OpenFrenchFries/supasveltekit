@@ -1,5 +1,6 @@
 import { readable, writable } from 'svelte/store';
 import type {PostgrestSingleResponse, SupabaseClient } from '@supabase/supabase-js';
+import { error } from '@sveltejs/kit';
 
 export type DbChangeEventTypes = "INSERT" | "UPDATE" | "DELETE" | "*";
 
@@ -60,36 +61,49 @@ export function selectStore<T>(
 	return {
 		subscribe,
 		add: (data: T) => {
-			update((state) => {
-				if (Array.isArray(state.data)) {
-					return {data: [...state.data, data], error: null};
-				} else if (state.data) {
-					return {data: [state.data as T, data], error: null};
-				} else {
-					return {data, error: null};
-				}
-			});
+			update((state) => ({
+				data: insertIntoState(state.data, data),
+				error: null
+			}));
 		},
 		upgrade(updateCb: (data: T) => T) {
-			update((state) => {
-				if (Array.isArray(state.data)) {
-					return {data: (state.data as T[]).map(updateCb), error: null};
-				} else if (state.data) {
-					return {data: updateCb(state.data as T), error: null};
-				}
-				return state;
-			});
+			update((state) => ({
+				data: updateState(state.data, updateCb),
+				error: null
+			}));
 		},
 		delete: (deleteCb: (data: T) => boolean) => {
-			update((state) => {
-				if (Array.isArray(state.data)) {
-					const data = state.data as T[];
-					return {data: data.filter((d: T) => !deleteCb(d)), error: null};
-				} else if (state.data && deleteCb(state.data as T)) {
-					return {data: null, error: null};
-				}
-				return state;
-			});
+			update((state) => ({
+				data: deleteFromState(state.data, deleteCb),
+				error: null
+			}));
 		}
 	};
+}
+
+function deleteFromState<T>(state: T[] | T | null, deleteCb: (data: T) => boolean): T | T[] | null {
+	if (Array.isArray(state)) {
+		const data = state as T[];
+		return data.filter((d: T) => !deleteCb(d));
+	} else if (deleteCb(state as T)) {
+		return null;
+	}
+	return state;
+}
+
+function insertIntoState<T>(state: T[] | T | null, data: T): T[] | T {
+	if (Array.isArray(state)) {
+		return [...state, data];
+	}
+	return data;
+}
+
+function updateState<T>(state: T[] | T | null, updateCb: (data: T) => T): T[] | T | null {
+	if (Array.isArray(state)) {
+		const data = state as T[];
+		return data.map(updateCb);
+	} else if (state) {
+		return updateCb(state as T);
+	}
+	return state;
 }

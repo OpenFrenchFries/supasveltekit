@@ -1,11 +1,12 @@
 import { readable, writable } from 'svelte/store';
 import type {PostgrestSingleResponse, SupabaseClient } from '@supabase/supabase-js';
-import { error } from '@sveltejs/kit';
 
 export type DbChangeEventTypes = "INSERT" | "UPDATE" | "DELETE" | "*";
 
+type ArrayOrSingle<T> = T[] | T | null;
+
 type DbSelectValue<T> = {
-	data: T[] | T | null;
+	data: ArrayOrSingle<T>;
 	error: Error | null;
 };
 
@@ -81,7 +82,7 @@ export function selectStore<T>(
 	};
 }
 
-function deleteFromState<T>(state: T[] | T | null, deleteCb: (data: T) => boolean): T | T[] | null {
+function deleteFromState<T>(state: ArrayOrSingle<T>, deleteCb: (data: T) => boolean): T | T[] | null {
 	if (Array.isArray(state)) {
 		const data = state as T[];
 		return data.filter((d: T) => !deleteCb(d));
@@ -91,14 +92,14 @@ function deleteFromState<T>(state: T[] | T | null, deleteCb: (data: T) => boolea
 	return state;
 }
 
-function insertIntoState<T>(state: T[] | T | null, data: T): T[] | T {
+function insertIntoState<T>(state: ArrayOrSingle<T>, data: T): T[] | T {
 	if (Array.isArray(state)) {
 		return [...state, data];
 	}
 	return data;
 }
 
-function updateState<T>(state: T[] | T | null, updateCb: (data: T) => T): T[] | T | null {
+function updateState<T>(state: ArrayOrSingle<T>, updateCb: (data: T) => T): ArrayOrSingle<T> {
 	if (Array.isArray(state)) {
 		const data = state as T[];
 		return data.map(updateCb);

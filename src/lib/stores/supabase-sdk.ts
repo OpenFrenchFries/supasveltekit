@@ -1,9 +1,10 @@
 import type { SupabaseAuthClient } from "@supabase/supabase-js/dist/module/lib/SupabaseAuthClient.js";
 import type { StorageClient } from "@supabase/storage-js";
 import { getContext, setContext } from "svelte";
-import type { RealtimeClient } from "@supabase/supabase-js";
+import type { RealtimeClient, SupabaseClient } from "@supabase/supabase-js";
 
 export interface SupabaseContext {
+	client: SupabaseClient;
 	auth?: SupabaseAuthClient;
 	storage?: StorageClient;
 	realtime?: RealtimeClient;

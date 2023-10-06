@@ -13,7 +13,7 @@ interface DbChangesChannelStore<T extends Record<string, unknown>> {
     channel: RealtimeChannel | null;
 }
 
-export function dbChangesChannelStore<T extends Record<string, unknown>, EventType extends "*" | "INSERT" | "UPDATE" | "DELETE">(
+export function dbChangesChannelStore<T extends Record<string, unknown>, EventType extends DbChangeEventTypes>(
 	realtime: RealtimeClient,
 	channelName: string,
 	event: EventType,

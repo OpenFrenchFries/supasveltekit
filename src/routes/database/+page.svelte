@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Collection from "$lib/components/database/Collection.svelte";
+	import DbChanges from "$lib/components/realtime/DbChanges.svelte";
 	import { supabase } from "../constants.js";
 
     const table = "test";
@@ -11,7 +12,7 @@
     {:else if error}
         <p>{error.message}</p>
     {:else}
-        <p>Count: <strong data-testid="items-count">{payload.length}</strong></p>
+        <p class="items-count">Count: <strong data-testid="items-count">{payload.length}</strong></p>
         {#each payload as entry}
             <p class="items">ID: {entry.id} Created at {entry.created_at}</p>
         {/each}
@@ -40,3 +41,8 @@
             .eq('id', payload[0].id)
     }}>Update data in DB</button>
 </Collection>
+
+<DbChanges channelName="db" event="*" schema="public" table="test" let:payload>
+    <h2>DB Changes</h2>
+    <p>Last change received: <strong data-testid="received-change">{payload?.eventType ?? "none"}</strong></p>
+</DbChanges>

@@ -1,8 +1,6 @@
 <script lang="ts">
 	import BroadcastChannel from "$lib/components/realtime/BroadcastChannel.svelte";
-	import DbChanges from "$lib/components/realtime/DbChanges.svelte";
 	import RealtimePresence from "$lib/components/realtime/RealtimePresence.svelte";
-	import { supabase } from "../constants.js";
 
     const channelName = "any";
     const eventName = "message";
@@ -39,13 +37,3 @@
     <p>Users online: <span>0</span></p>
     {/if}
 </RealtimePresence>
-
-<DbChanges channelName="db" event="*" schema="public" table="test" let:payload>
-    <h2>DB Changes</h2>
-    <p>Last change received: <strong data-testid="received-change">{payload?.eventType ?? "none"}</strong></p>
-    <button on:click={async () => {
-        await supabase
-            .from('test')
-            .insert({})
-    }}>Insert data in DB</button>
-</DbChanges>

@@ -1,10 +1,15 @@
 <script lang="ts">
-	import { setSupabaseContext } from "$lib/stores/supabase-sdk.js";
-	import type { SupabaseClient } from "@supabase/supabase-js";
+	import { setSupabaseContext } from '$lib/stores/supabase-sdk.js';
+	import type { SupabaseClient } from '@supabase/supabase-js';
 
-    export let supabase: SupabaseClient;
+	export let supabase: SupabaseClient;
 
-    setSupabaseContext({auth: supabase.auth, storage: supabase.storage, realtime: supabase.realtime});
+    setSupabaseContext({
+        client: supabase,
+		auth: supabase.auth,
+		storage: supabase.storage,
+		realtime: supabase.realtime,
+	});
 </script>
 
 <slot />

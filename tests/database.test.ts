@@ -28,8 +28,11 @@ test.describe.serial('Database', () => {
 	});
 
 	test('should synchronize item in real time', async () => {
+		await page.waitForSelector(".items-count");
+
 		await page.getByRole('button', { name: 'Insert data in DB' }).click();
 		await expect(page.getByTestId("realtime-item")).toHaveText('[]');
+		await page.waitForTimeout(1000);
 		await page.getByRole('button', { name: 'Activate realtime item' }).click();
 		await expect(page.getByTestId("realtime-item")).not.toHaveText('[]');
 

@@ -1,17 +1,17 @@
-import { readable, writable } from 'svelte/store';
+import { readable, writable, type Writable } from 'svelte/store';
 import type {PostgrestSingleResponse, SupabaseClient } from '@supabase/supabase-js';
 
 export type DbChangeEventTypes = "INSERT" | "UPDATE" | "DELETE" | "*";
 
 type ArrayOrSingle<T> = T[] | T | null;
 
-type DbSelectValue<T> = {
+type DbValue<T> = {
 	data: ArrayOrSingle<T>;
 	error: Error | null;
 };
 
-interface DbSelectStore<T> {
-	subscribe: (cb: (value: DbSelectValue<T>) => void) => void | (() => void);
+interface DbItemsStore<T> {
+	subscribe: (cb: (value: DbValue<T>) => void) => void | (() => void);
 	delete: (deleteCb: (data: T) => boolean) => void;
 	add: (data: T) => void;
 	upgrade: (updateCb: (data: T) => T) => void;
@@ -23,15 +23,58 @@ export function selectStore<T>(
     query: string,
 	head: boolean,
     count: 'exact' | 'planned' | 'estimated' | undefined
-): DbSelectStore<T> {
+): DbItemsStore<T> {
+	return dbStore(client, () => {
+		const queryBuilder = client.from(table);
+	
+		return writable<DbValue<T>>({ data: null, error: null }, (set) => {
+			queryBuilder
+				.select(query, { head, count })
+				.then((data: PostgrestSingleResponse<unknown>) => {
+					set({ data: Array.isArray(data.data) ? data.data as T[] : data.data as T, error: null });
+				}, (error) => {
+					set({ data: null, error });
+				});
+		});
+	})
+}
+
+export function itemStore<T>(
+	client: SupabaseClient,
+	table: string,
+    refKey: string,
+	refValue: unknown | null
+): DbItemsStore<T> {
+	return dbStore(client, () => {
+		const queryBuilder = client.from(table);
+
+		return writable<DbValue<T>>({ data: null, error: null }, (set) => {
+			queryBuilder
+				.select()
+				.eq(refKey, refValue)
+				.then((data: PostgrestSingleResponse<unknown>) => {
+					set({ data: Array.isArray(data.data) ? data.data as T[] : data.data as T, error: null });
+				}, (error) => {
+					set({ data: null, error });
+				});
+		});
+	})
+}
+
+
+
+export function dbStore<T>(
+	client: SupabaseClient,
+    writableStoreBuilder: () => Writable<DbValue<T>>
+): DbItemsStore<T> {
 	// SSR
 	if (!globalThis.window) {
 		const { subscribe } = readable({ data: null, error: null });
 		return {
 			subscribe,
-			delete: () => { return },
-			add: () => { return },
-			upgrade: () => { return }
+			delete: defaultCb,
+			add: defaultCb,
+			upgrade: defaultCb
 		};
 	}
 
@@ -41,23 +84,13 @@ export function selectStore<T>(
 		const { subscribe } = readable({ data: null, error: new Error('Client is not initialized') });
 		return {
 			subscribe,
-			delete: () => { return },
-			add: () => { return },
-			upgrade: () => { return }
+			delete: defaultCb,
+			add: defaultCb,
+			upgrade: defaultCb
 		};
 	}
 
-    const queryBuilder = client.from(table);
-
-	const { subscribe, update } = writable<DbSelectValue<T>>({ data: null, error: null }, (set) => {
-		queryBuilder
-			.select(query, { head, count })
-			.then((data: PostgrestSingleResponse<unknown>) => {
-				set({ data: Array.isArray(data.data) ? data.data as T[] : data.data as T, error: null });
-			}, (error) => {
-				set({ data: null, error });
-			});
-	});
+	const { subscribe, update } = writableStoreBuilder();
 
 	return {
 		subscribe,
@@ -81,6 +114,8 @@ export function selectStore<T>(
 		}
 	};
 }
+
+function defaultCb(){return}
 
 function deleteFromState<T>(state: ArrayOrSingle<T>, deleteCb: (data: T) => boolean): T | T[] | null {
 	if (Array.isArray(state)) {

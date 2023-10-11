@@ -1,9 +1,9 @@
 import { expect, test, type Page } from '@playwright/test';
 
-test.describe.parallel('Database', () => {
+test.describe.serial('Database', () => {
 	let page: Page;
 
-	test.beforeAll(async ({ browser }) => {
+	test.beforeEach(async ({ browser }) => {
 		page = await browser.newPage();
 		await page.goto('/database');
 		await page.waitForLoadState('networkidle');
@@ -25,6 +25,34 @@ test.describe.parallel('Database', () => {
 
 		await page.getByRole('button', { name: 'Delete data in DB' }).click();
 		await expect(page.getByTestId("items-count")).toHaveText(count.toString());
+	});
+
+	test('should synchronize item in real time', async () => {
+		await page.waitForSelector(".items-count");
+
+		await page.getByRole('button', { name: 'Insert data in DB' }).click();
+		await expect(page.getByTestId("realtime-item")).toHaveText('[]');
+		await page.waitForTimeout(1000);
+		await page.getByRole('button', { name: 'Activate realtime item' }).click();
+		await expect(page.getByTestId("realtime-item")).not.toHaveText('[]');
+
+		const text = await page.getByTestId("realtime-item").textContent();
+
+		await page.getByRole('button', { name: 'Update data in DB' }).click();
+		await expect(page.getByTestId("realtime-item")).not.toHaveText(text ?? '');
+
+		await page.getByRole('button', { name: 'Delete data in DB' }).click();
+	});
+
+	test('should listen to db update', async () => {
+		await expect(page.getByTestId("received-change")).toContainText("none");
+
+		await page.getByRole('button', { name: 'Insert data in DB' }).click();
+
+		await expect(page.getByTestId("received-change")).toHaveText("INSERT");
+
+		await page.getByRole('button', { name: 'Delete data in DB' }).click();
+		
 	});
 	
 });

@@ -1,18 +1,16 @@
 <script lang="ts">
-	import { selectStore } from '$lib/stores/database.js';
+	import { itemStore } from '$lib/stores/database.js';
 	import { dbChangesChannelStore } from '$lib/stores/db-changes-channel.js';
 	import { getSupabaseContext } from '$lib/stores/supabase-sdk.js';
 
 	export let realtime: boolean = false;
-	export let refreshKey = "id";
+	export let refKey = "id";
+	export let refValue: unknown | null = null;
     export let table: string;
-    export let selectQuery: string = "*";
-	export let head: boolean = false
 	export let schema: string = 'public';
-    export let count: 'exact' | 'planned' | 'estimated' | undefined = undefined;
 
 	const client = getSupabaseContext().client!;
-	const store = selectStore(client, table, selectQuery, head, count);
+	const store = itemStore(client, table, refKey, refValue);
 
 	/**
 	 * If realtime is enabled, this code sets up subscriptions to listen for changes to the specified table in the Supabase database.
@@ -21,21 +19,21 @@
 	if(realtime){
 		const realtime = getSupabaseContext().realtime!;
 		
-		dbChangesChannelStore(realtime, crypto.randomUUID(), 'DELETE', schema, table, null).subscribe((payload: any) => {
+		dbChangesChannelStore(realtime, crypto.randomUUID(), 'DELETE', schema, table, `${refKey}=eq.${refValue}`).subscribe((payload: any) => {
 			if(payload?.data?.old){
-				store.delete((data: any) => data[refreshKey] === payload.data?.old?.[refreshKey]);
+				store.delete((data: any) => data?.[refKey] === payload?.data?.old?.[refKey] && data?.[refKey] === refValue);
 			}
 		});
 
-		dbChangesChannelStore(realtime, crypto.randomUUID(), 'INSERT', schema, table, null).subscribe((payload: any) => {
+		dbChangesChannelStore(realtime, crypto.randomUUID(), 'INSERT', schema, table, `${refKey}=eq.${refValue}`).subscribe((payload: any) => {
 			if(payload?.data?.new){
 				store.add(payload.data?.new);
 			}
 		});
 
-		dbChangesChannelStore(realtime, crypto.randomUUID(), 'UPDATE', schema, table, null).subscribe((payload: any) => {
+		dbChangesChannelStore(realtime, crypto.randomUUID(), 'UPDATE', schema, table, `${refKey}=eq.${refValue}`).subscribe((payload: any) => {
 			if(payload?.data?.new){
-				store.upgrade((data: any) => data[refreshKey] === payload.data?.new?.[refreshKey] ? payload.data?.new : data);
+				store.upgrade((data: any) => payload.data?.new);
 			}
 		});
 	}

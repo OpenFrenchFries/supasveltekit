@@ -9,6 +9,7 @@
 		auth: supabase.auth,
 		storage: supabase.storage,
 		realtime: supabase.realtime,
+		function: supabase.functions,
 	});
 </script>
 

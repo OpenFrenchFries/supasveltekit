@@ -4,7 +4,7 @@
 
 console.log("Hello from Functions!",Date.now())
 
-Deno.serve(async () => {
+Deno.serve(async (request) => {
   const data = {
     time: Date.now(),
   }
@@ -13,7 +13,7 @@ Deno.serve(async () => {
     JSON.stringify(data),
     { headers: { 
       "Content-Type": "application/json",
-      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Origin': request.headers.get('origin'),
       'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type'
     } },
   )

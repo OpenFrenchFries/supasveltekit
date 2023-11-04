@@ -12,7 +12,7 @@ jobs:
           version: latest
       - run: supabase start
       - run: supabase db reset
-      - run: supabase functions serve --no-verify-jwt
+      - run: supabase functions serve --no-verify-jwt &
       - run: npm ci
       - run: npm run env:local
       - run: npx playwright install --with-deps chromium

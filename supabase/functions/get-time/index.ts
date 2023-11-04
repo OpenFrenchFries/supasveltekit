@@ -2,7 +2,7 @@
 // https://deno.land/manual/getting_started/setup_your_environment
 // This enables autocomplete, go to definition, etc.
 
-console.log("Hello from Functions!")
+console.log("Hello from Functions!",Date.now())
 
 Deno.serve(async () => {
   const data = {

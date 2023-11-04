@@ -11,12 +11,17 @@ import RealtimePresence from './components/realtime/RealtimePresence.svelte';
 import DbChanges from './components/realtime/DbChanges.svelte';
 import Collection from './components/database/Collection.svelte';
 import Item from './components/database/Item.svelte';
+import FunctionCall from './components/function/FunctionCall.svelte';
+import IntervalFunctionCall from './components/function/IntervalFunctionCall.svelte';
+import DelayedFunctionCall from './components/function/DelayedFunctionCall.svelte';
+import ScheduledFunctionCall from './components/function/ScheduledFunctionCall.svelte';
 import { sessionStore } from './stores/session.js';
 import { bucketFilesListStore, bucketsListStore, downloadURLStore, uploadStore } from './stores/bucket.js';
 import { broadcastChannelStore } from './stores/broadcast-channel.js';
 import { presenceStateStore, userStatusStore } from './stores/presence-channel.js';
 import { dbChangesChannelStore } from './stores/db-changes-channel.js';
 import { itemStore, selectStore } from './stores/database.js';
+import { intervalFunctionCallStore, delayedFunctionCallStore, functionCallStore, scheduledFunctionCallStore } from './stores/function.js';
 
 export {
     SupabaseApp,
@@ -32,6 +37,14 @@ export {
     DbChanges,
     Collection,
     Item,
+    FunctionCall,
+    IntervalFunctionCall,
+    DelayedFunctionCall,
+    ScheduledFunctionCall,
+    functionCallStore,
+    intervalFunctionCallStore,
+    delayedFunctionCallStore,
+    scheduledFunctionCallStore,
     sessionStore,
     bucketFilesListStore,
     bucketsListStore,

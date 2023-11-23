@@ -88,7 +88,7 @@ For detailed documentation, usage guides, and API references, dive into [our doc
 
 Explore hands-on examples to get a feel for how SupaSvelteKit enhances your projects:
 
-- [Basic Todo App](https://github.com/orgs/OpenFrenchFries/repositories)
+- [Basic Todo App](https://github.com/OpenFrenchFries/supasveltekit-example-todo)
 - [Authentication Demo](https://github.com/orgs/OpenFrenchFries/repositories)
 - ... and more examples coming soon! If you've built something cool with SupaSvelteKit, let us know!
 

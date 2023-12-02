@@ -3,7 +3,7 @@ import { expect, test, type Page } from '@playwright/test';
 test.describe.serial('Database', () => {
 	let page: Page;
 
-	test.beforeEach(async ({ browser }) => {
+	test.beforeAll(async ({ browser }) => {
 		page = await browser.newPage();
 		await page.goto('/database');
 		await page.waitForLoadState('networkidle');
@@ -14,6 +14,7 @@ test.describe.serial('Database', () => {
 	});
 
 	test('should list entries and receive realtime updates', async () => {
+		await page.reload();
 		await page.waitForSelector(".items-count");
 		const count = +(await (page.getByTestId("items-count").textContent()) ?? '0');
 		await page.getByRole('button', { name: 'Insert data in DB' }).click();
@@ -45,8 +46,6 @@ test.describe.serial('Database', () => {
 	});
 
 	test('should listen to db update', async () => {
-		await expect(page.getByTestId("received-change")).toContainText("none");
-
 		await page.getByRole('button', { name: 'Insert data in DB' }).click();
 
 		await expect(page.getByTestId("received-change")).toHaveText("INSERT");

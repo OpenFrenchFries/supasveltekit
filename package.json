@@ -35,7 +35,7 @@
 		"svelte": "^4.0.0"
 	},
 	"devDependencies": {
-		"@playwright/test": "^1.37.1",
+		"@playwright/test": "^1.40.1",
 		"@sveltejs/adapter-auto": "^2.0.0",
 		"@sveltejs/kit": "^1.20.4",
 		"@sveltejs/package": "^2.0.0",

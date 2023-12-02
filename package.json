@@ -49,7 +49,7 @@
 		"prettier-plugin-svelte": "^2.10.1",
 		"publint": "^0.1.9",
 		"supabase": "^1.93.0",
-		"svelte": "^4.0.5",
+		"svelte": "^4.2.2",
 		"svelte-check": "^3.4.3",
 		"tslib": "^2.4.1",
 		"typescript": "^5.0.0",

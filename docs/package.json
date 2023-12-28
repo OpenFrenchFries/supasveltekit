@@ -11,7 +11,7 @@
     "deploy": "firebase deploy --only hosting"
   },
   "dependencies": {
-    "@astrojs/starlight": "^0.14.0",
+    "@astrojs/starlight": "^0.15.0",
     "astro": "^3.6.4",
     "sharp": "^0.32.6"
   },

@@ -10,7 +10,7 @@ devDependencies:
     specifier: ^1.40.1
     version: 1.41.1
   '@sveltejs/adapter-auto':
-    specifier: ^3.0.0
+    specifier: ^3.1.1
     version: 3.1.1(@sveltejs/kit@2.5.0)
   '@sveltejs/kit':
     specifier: ^2.0.0
@@ -19,7 +19,7 @@ devDependencies:
     specifier: ^2.0.0
     version: 2.2.6(svelte@4.2.9)(typescript@5.3.3)
   '@sveltejs/vite-plugin-svelte':
-    specifier: ^3.0.0
+    specifier: ^3.0.1
     version: 3.0.1(svelte@4.2.9)(vite@5.0.12)
   '@typescript-eslint/eslint-plugin':
     specifier: ^5.45.0
@@ -52,7 +52,7 @@ devDependencies:
     specifier: ^1.93.0
     version: 1.136.3
   svelte:
-    specifier: ^4.2.7
+    specifier: ^4.2.8
     version: 4.2.9
   svelte-check:
     specifier: ^3.4.3

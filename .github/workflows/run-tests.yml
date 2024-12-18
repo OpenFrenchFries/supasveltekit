@@ -7,13 +7,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
       - uses: supabase/setup-cli@v1
         with:
           version: latest
       - run: supabase start
       - run: supabase db reset
       - run: supabase functions serve --no-verify-jwt &
-      - run: npm ci
-      - run: npm run env:local
+      - run: pnpm i
+      - run: pnpm run env:local
       - run: npx playwright install --with-deps chromium
       - run: npx playwright test --workers 5

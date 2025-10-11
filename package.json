@@ -64,6 +64,6 @@
 	"types": "./dist/index.d.ts",
 	"type": "module",
 	"dependencies": {
-		"@supabase/supabase-js": "^2.45.1"
+		"@supabase/supabase-js": "^2.50.0"
 	}
 }
